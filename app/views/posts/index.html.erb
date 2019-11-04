@@ -1,0 +1,49 @@
+<h1>Posts#index</h1>
+<p>Find me in app/views/posts/index.html.erb</p>
+<script>
+    $(function() {
+		timer = setInterval( function () {
+			$.ajax({
+                type: 'GET',
+                url: '/posts/update',
+                dataType: 'json',
+                success: function(data){
+                    //alert('success');
+                    console.log('success',data);
+                    console.log(data.username);
+                    
+                    for(var ele in data){
+                        var tbl = $('#data_table tr:last').attr('id');;
+                        console.log(tbl);
+                        if(tbl < data[ele].id){
+                            $('#data_table > tbody:last').append('<tr id='+data[ele].id+'><td>'+data[ele].username+'</td><td>'+data[ele].content+'</td></tr>');
+                        }
+                    }
+                },
+            });
+		}, 10000);
+	});
+
+</script>
+
+<form action="/posts/create" method="POST">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <!--<input type="text" name="username" placeholder="username">-->
+    <input type="text" name="content" placeholder="content">
+    <input type="submit" value="입력">
+</form>
+<table id="data_table">
+    <tr>
+        <th>유저 이름</th>
+        <th>내용</th>
+    </tr>
+    <tbody>
+        <% @posts.each do |p| %>
+            <tr id="<%= p.id %>">
+                <td><%= p.username %></td>
+                <td><%= p.content %></td>
+            </tr>
+        <% end %>
+
+    </tbody>
+</table>

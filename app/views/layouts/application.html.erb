@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ChatApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if @current_user %>
+      <%= @current_user.email %> 님으로 접속중입니다.
+      <a href="/sessions/logout">로그아웃</a>
+    <% else %>
+      <a href="/users/new">회원 가입</a>
+      <a href="/sessions/login">로그인</a>
+    <% end %>
+
+    <!-- 로그인을 했을 떄 유저 정보를 여기에 표시, 로그아웃 버튼도 여기에 추가 -->
+    <%= yield %>
+  </body>
+</html>
